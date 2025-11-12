@@ -1,0 +1,35 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #353535;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+canvas {
+    border: 1px solid black;
+}
+
+
+/* Borde de referencia para mantener una cierta separación */
+.framework, .inner-framework{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    width: 400px;
+    height: 800px;
+}
+
+.inner-framework{
+    position: absolute;
+    height: calc(100% - 80px);
+    width: calc(100% - 80px);
+    border: 1px solid rgba(255, 0, 0, 0.4);
+    border-style: dotted;
+    z-index: 2;
+}
