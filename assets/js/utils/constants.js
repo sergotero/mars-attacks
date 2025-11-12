@@ -11,6 +11,9 @@ class Constants{
     //Spacecraft (player) speed (x)
     static SPACECRAFT_SPEED_X = 3;
 
+    //EnemyPawn speed (x)
+    static ENEMY_PAWN_SPEED_X = 1;
+
     //Keycodes
     static ARROW_LEFT = 37;
     static ARROW_RIGHT = 39;
