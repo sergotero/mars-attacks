@@ -23,9 +23,13 @@ class Game {
 
         //Background
         this.space = new Space(this.ctx, this.canvas.width, this.canvas.height, "/assets/images/backgrounds/bg-main.png");
-        //Characters & Enemies
+        //Player
         this.spacecraft = new Spacecraft(this.ctx, 40, 40, "/assets/images/sprites/spacecraft.sprite.png");
-        console.log(this.spacecraft);
+
+        //Enemies
+        this.enemies = [
+            new EnemyPawn(this.ctx, 20, 22, "/assets/images/sprites/basic-enemy.sprite.png", 4, 1)
+        ];
         
     }
 
@@ -53,6 +57,7 @@ class Game {
         //The space moves
         this.space.move();
         this.spacecraft.move();
+        this.enemies.forEach((enemy) => enemy.move());
     }
 
     clear(){
@@ -63,7 +68,7 @@ class Game {
     draw() {
         this.space.draw();
         this.spacecraft.draw();
+        this.enemies.forEach((enemy) => enemy.draw());
     }
-
 
 }

@@ -1,4 +1,4 @@
-class Space extends BaseModel{
+class Space extends BaseSprite{
 
     constructor(ctx, width, height, sprite){
         super(ctx, width, height, sprite);

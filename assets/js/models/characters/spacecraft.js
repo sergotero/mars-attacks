@@ -1,4 +1,4 @@
-class Spacecraft extends BaseModel{
+class Spacecraft extends BaseSprite{
 
     constructor(ctx, width, height, sprite) {
         super(ctx, width, height, sprite);
