@@ -1,74 +1,35 @@
-class EnemyPawn extends BaseSprite{
+class EnemyPawn extends BaseEnemy{
 
-    constructor(ctx, width, height, sprite) {
-        super(ctx, width, height, sprite);
-        this.x = (this.ctx.canvas.width / 2);
-        this.y = 200;
-
-        this.rowFrames = 4;
-        this.colFrames = 1;
+    constructor(ctx, width, height, sprite, rowFrames, colFrames, type) {
+        super(ctx, width, height, sprite, rowFrames, colFrames, type);
 
         this.rowIndex = 0;
         this.colIndex = 0;
 
+        this.type = type;
+
+        switch(this.type) {
+            case Constants.ENEMY_TYPE_A:
+                this.score = 80;
+                this.x = (this.ctx.canvas.width / 2);
+                this.y = 120;
+                this.sprite.src = "/assets/images/sprites/strong-enemy.sprite.png";
+                break;
+            case Constants.ENEMY_TYPE_B:
+                this.x = (this.ctx.canvas.width / 2);
+                this.y = 160;
+                this.score = 40;
+                this.sprite.src = "/assets/images/sprites/normal-enemy.sprite.png";
+                break;
+            case Constants.ENEMY_TYPE_C:
+                this.x = (this.ctx.canvas.width / 2);
+                this.y = 200;
+                this.score = 20;
+                this.sprite.src = "/assets/images/sprites/weak-enemy.sprite.png";
+                break;
+        }
+
         this.vx = Constants.ENEMY_PAWN_SPEED_X;
     }
 
-    move() {
-        this.x += this.vx;
-        if(this.x < 40) {
-            this.vx = Constants.ENEMY_PAWN_SPEED_X;
-        } else if (this.x + 60 > this.ctx.canvas.width){
-            this.vx = -this.vx;
-        }
-    }
-
-    clear() {
-
-    }
-
-    draw() {
-        if(this.sprite.isReady){
-            Utils.debuggin(this);
-            /*
-            Syntaxis:
-            ctx.drawImage(image, sx, sy, sWidth, sHeight,  dx,  dy, dWidth, dHeight);
-                sx, sy, sWidth, sHeight --> source image
-                dx, dy, dWidth, dHeight --> destiny (place within canvas)
-
-                frameWidth = 60px;
-                frameHeight = 44px;
-            */
-            this.ctx.drawImage(
-                this.sprite,
-                this.frameWidth * this.rowIndex,
-                this.frameHeight * this.colIndex,
-                this.frameWidth,
-                this.frameHeight,
-                this.x,
-                this.y,
-                this.width,
-                this.height
-            );
-        }
-        this.animate();
-        //Increase the number to change the frame
-        this.drawCount++;
-    }
-
-    animate() {
-        if(this.vx !== 0) {
-            this.animateFrames(this.rowIndex, this.colIndex, this.rowFrames, 30);
-        }
-    }
-
-    animateFrames(initialRowFrame, initialColFrame, rowFrames, frequency) {
-        if(this.rowIndex !== initialRowFrame) {
-            this.rowIndex = initialRowFrame;
-            this.colIndex = initialColFrame;
-        } else if (this.drawCount % frequency === 0) {
-            this.drawCount = 0;
-            this.rowIndex = (this.rowIndex + 1) % rowFrames;
-        }
-    }
 }

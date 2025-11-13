@@ -26,6 +26,9 @@ class Spacecraft extends BaseSprite{
                     this.vx = 0;
                 }
                 break;
+            case Constants.SPACE_BAR:
+                //Dispara
+                break;
         }
 
     }
@@ -51,7 +54,7 @@ class Spacecraft extends BaseSprite{
         // this.ctx.fillStyle = "red";
         // this.ctx.fillRect(this.x, this.y, 30, 30);
         if(this.sprite.isReady) {
-            Utils.debuggin(this);
+            //Utils.debuggin(this);
             this.ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
         }
     }
