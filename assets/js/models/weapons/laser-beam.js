@@ -1,10 +1,10 @@
 class LaserBeam extends BaseSprite{
 
-    constructor(ctx, width, height, sprite, type){
-        super(ctx, width, height, sprite);
+    constructor(ctx, width, height, sprite, x, y, type){
+        super(ctx, width, height, sprite = "/assets/images/sprites/laser-beam.sprite.png");
 
-        this.x;
-        this.y;
+        this.x = x;
+        this.y = y;
 
         this.rowFrames = 1;
         this.colFrames = 1;
@@ -18,20 +18,27 @@ class LaserBeam extends BaseSprite{
     }
 
     move() {
-        if(type === "friend") {
+        if(this.type === "friend") {
             this.y += -this.vy;
-        } else if (type === "foe") {
+        } else if (this.type === "foe") {
             this.y += this.vy;
         }
     }
 
-    clear() {
-
+    checkBounds() {
+        if (this.y < 0) {
+            return true;
+        } else if (this.y > this.ctx.canvas.height) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     draw() {
         if(this.sprite.isReady){
-            Utils.debuggin(this);
+            if (Constants.DEBUG) Utils.debuggin(this);
+            this.ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
         }
     }
 }

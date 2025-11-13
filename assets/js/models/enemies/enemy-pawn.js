@@ -12,12 +12,12 @@ class EnemyPawn extends BaseEnemy{
             case Constants.ENEMY_TYPE_A:
                 this.score = 80;
                 this.x = (this.ctx.canvas.width / 2);
-                this.y = 120;
+                this.y = 140;
                 this.sprite.src = "/assets/images/sprites/strong-enemy.sprite.png";
                 break;
             case Constants.ENEMY_TYPE_B:
                 this.x = (this.ctx.canvas.width / 2);
-                this.y = 160;
+                this.y = 170;
                 this.score = 40;
                 this.sprite.src = "/assets/images/sprites/normal-enemy.sprite.png";
                 break;
