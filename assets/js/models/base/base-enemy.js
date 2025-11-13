@@ -33,6 +33,7 @@ class BaseEnemy extends BaseSprite {
                 sx, sy, sWidth, sHeight --> source image
                 dx, dy, dWidth, dHeight --> destiny (place within canvas)
             */
+            if (Constants.DEBUG) Utils.debuggin(this);
             this.ctx.drawImage(
                 this.sprite,
                 this.frameWidth * this.rowIndex,

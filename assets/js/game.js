@@ -31,7 +31,7 @@ class Game {
             new EnemyPawn(this.ctx, 20, 22, "", 4, 1, "weak"),
             new EnemyPawn(this.ctx, 20, 22, "", 4, 1, "normal"),
             new EnemyPawn(this.ctx, 20, 22, "", 4, 1, "strong"),
-            new EnemySpecial(this.ctx, 23, 23,"", 7, 1,),
+            new EnemySpecial(this.ctx, 23, 23,"", 7, 2),
         ];
         
     }

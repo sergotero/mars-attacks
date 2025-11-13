@@ -9,7 +9,7 @@ class Constants{
     static SKY_PACE = 0.3;
     static SPACECRAFT_SPEED_X = 3;
     static ENEMY_PAWN_SPEED_X = 1;
-    static LASER_BEAM_SPEED_Y = 2;
+    static LASER_BEAM_SPEED_Y = 5;
 
     //Keycodes
     static ARROW_LEFT = 37;
@@ -26,6 +26,9 @@ class Constants{
     static ENEMY_TYPE_B = "normal";
     static ENEMY_TYPE_C = "weak";
 
+    //Weapons
+    static RELOAD_TIME = 200;
+
     //Debug mode
-    static DEBUG = true;
+    static DEBUG = false;
 }
