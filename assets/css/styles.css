@@ -1,5 +1,11 @@
+:root{
+    --white: #FFFFFF;
+}
+
 *{
     box-sizing: border-box;
+    font-family: "DotGothic16", sans-serif;
+    color: var(--white);
 }
 
 body{
@@ -7,6 +13,18 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.game-info{
+    display: flex;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+}
+
+.game-info p {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 canvas {

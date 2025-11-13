@@ -28,7 +28,10 @@ class Game {
 
         //Enemies
         this.enemies = [
-            new EnemyPawn(this.ctx, 20, 22, "/assets/images/sprites/basic-enemy.sprite.png", 4, 1)
+            new EnemyPawn(this.ctx, 20, 22, "", 4, 1, "weak"),
+            new EnemyPawn(this.ctx, 20, 22, "", 4, 1, "normal"),
+            new EnemyPawn(this.ctx, 20, 22, "", 4, 1, "strong"),
+            new EnemySpecial(this.ctx, 23, 23,"", 7, 1,),
         ];
         
     }
@@ -58,6 +61,11 @@ class Game {
         this.space.move();
         this.spacecraft.move();
         this.enemies.forEach((enemy) => enemy.move());
+    }
+
+    //Update scores, lives, etc.
+    update() {
+
     }
 
     clear(){

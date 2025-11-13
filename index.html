@@ -13,8 +13,13 @@
     <title>Mars Attacks</title>
 </head>
 <body>
+    <div class="game-info">
+        <p>Score <span id="score">0</span></p>
+        <p>Lives <span id="lives">3</span></p>
+    </div>
     <canvas id="game-screen" width="400" height="800"> 
     </canvas>
+    <!-- Only for debuggin -->
     <div class="framework">
         <div class="inner-framework"></div>
     </div>
@@ -22,10 +27,13 @@
     <!-- CONSTANTS -->
     <script src="assets/js/utils/constants.js"></script>
     <script src="assets/js/utils/utils.js"></script>
-    <!-- MODELS -->
+    <!-- BASE MODELS -->
     <script src="assets/js/models/base/base-model.js"></script>
     <script src="assets/js/models/base/base-sprite.js"></script>
+    <script src="assets/js/models/base/base-enemy.js"></script>
+    <!-- MODELS -->
     <script src="assets/js/models/enemies/enemy-pawn.js"></script>
+    <script src="assets/js/models/enemies/enemy-special.js"></script>
     <script src="assets/js/models/characters/spacecraft.js"></script>
     <script src="assets/js/models/backgrounds/space.js"></script>
     <!-- GAME -->
