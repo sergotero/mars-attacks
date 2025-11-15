@@ -10,9 +10,9 @@ class EnemyPawn extends BaseEnemy{
 
         switch(this.type) {
             case Constants.ENEMY_TYPE_A:
-                this.score = 80;
                 this.x = (this.ctx.canvas.width / 2);
                 this.y = 140;
+                this.score = 80;
                 this.maxHits = 3;
                 this.sprite.src = "/assets/images/sprites/strong-enemy.sprite.png";
                 break;

@@ -1,6 +1,6 @@
 class Game {
 
-    constructor(idCanvas) {
+    constructor(idCanvas, idScoreDOM, idLivesDOM, idTimeDOM) {
         
         //Canvas
         this.canvas = document.getElementById(idCanvas);
@@ -16,13 +16,19 @@ class Game {
         this.idInterval = undefined;
 
         //Lives
+        this.livesDOM = document.getElementById(idLivesDOM);
         this.lives = 3;
 
         //Score
+        this.scoreDOM = document.getElementById(idScoreDOM);
         this.score = 0;
 
+        //TimeCounter
+        this.timeDOM = document.getElementById(idTimeDOM);
+        this.time = new TimeCounter();
         //Background
         this.space = new Space(this.ctx, this.canvas.width, this.canvas.height, "/assets/images/backgrounds/bg-main.png");
+
         //Player
         this.spacecraft = new Spacecraft(this.ctx, 40, 40, "/assets/images/sprites/spacecraft.sprite.png");
 
@@ -50,12 +56,14 @@ class Game {
     setUpListeners() {
         addEventListener("keydown", (event) => this.spacecraft.onKeyPressed(event));
         addEventListener("keyup", (event) => this.spacecraft.onKeyPressed(event));
+        addEventListener("click", this.time.start());
     }
 
     stop() {
         //The intervals stops
         clearInterval(this.idInterval);
         this.idInterval = undefined;
+        this.time.stop();
     }
 
     move(){
@@ -67,19 +75,22 @@ class Game {
 
     checkCollisions() {
         this.enemies.forEach((enemy) => {
+            //Checks if any enemy has collided with a laser beam from the spacecraft
             this.spacecraft.beamGenerator.forEach((beam) => {
                 if(enemy.checkCollisions(beam) && beam.type === "friend") {
                     enemy.hitCount++;
                     enemy.checkLife();
+                    this.score += enemy.score;
                     beam.isUsed = true;
                 }
             });
 
+            //Checks if the spacecraft has collided with a laser beam from the enemy
             enemy.beamGenerator.forEach((beam) => {
                 if(this.spacecraft.checkCollisions(beam) && beam.type === "foe") {
                     this.spacecraft.hitCount++;
-                    beam.isUsed = true;
                     this.spacecraft.checkLife();
+                    beam.isUsed = true;
                 }
             });
         })
@@ -97,7 +108,10 @@ class Game {
             this.lives--;
         }
 
-        console.log("HitCount Spacecraft: ", this.spacecraft.hitCount);
+        this.scoreDOM.textContent = Number(this.score);
+        this.livesDOM.textContent = (Number(this.lives) <= 0)? +0 : Number(this.lives);
+        this.timeDOM.textContent = `${this.time.hours}:${this.time.minutes}:${this.time.seconds}`;
+        
     }
 
     clear(){
