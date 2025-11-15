@@ -41,6 +41,8 @@ class Game {
         this.idInterval = setInterval(() => {
             this.clear();
             this.move();
+            this.checkCollisions();
+            this.update();
             this.draw();
         }, Constants.FPS);
     }
@@ -63,20 +65,58 @@ class Game {
         this.enemies.forEach((enemy) => enemy.move());
     }
 
+    checkCollisions() {
+        this.enemies.forEach((enemy) => {
+            this.spacecraft.beamGenerator.forEach((beam) => {
+                if(enemy.checkCollisions(beam) && beam.type === "friend") {
+                    enemy.hitCount++;
+                    enemy.checkLife();
+                    beam.isUsed = true;
+                }
+            });
+
+            enemy.beamGenerator.forEach((beam) => {
+                if(this.spacecraft.checkCollisions(beam) && beam.type === "foe") {
+                    this.spacecraft.hitCount++;
+                    beam.isUsed = true;
+                    this.spacecraft.checkLife();
+                }
+            });
+        })
+
+        
+    }
+
     //Update scores, lives, etc.
     update() {
+        if(this.lives === 0) {
+            this.gameOver();
+        }
+        
+        if (this.spacecraft.isDead) {
+            this.lives--;
+        }
 
+        console.log("HitCount Spacecraft: ", this.spacecraft.hitCount);
     }
 
     clear(){
         //Clean the whole canvas
         this.ctx.clearRect(this.x, this.y, this.canvas.width, this.canvas.height);
+        this.enemies = this.enemies.filter(enemy => !enemy.isDead);
+        this.enemies.forEach(enemy => enemy.clear());
     }
 
     draw() {
         this.space.draw();
         this.spacecraft.draw();
-        this.enemies.forEach((enemy) => enemy.draw());
+        this.enemies.forEach(enemy => enemy.draw());
+    }
+
+    gameOver() {
+        if (this.lives === 0) {
+            this.stop();
+        }
     }
 
 }
