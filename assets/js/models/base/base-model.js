@@ -22,5 +22,18 @@ class BaseModel {
 
     clear() {}
 
+    checkCollisions(other) {
+        if (
+            this.x < other.x + other.width &&
+            this.x + this.width > other.x &&
+            this.y < other.y + other.height &&
+            this.height + this.y > other.y
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     draw() {}
 }

@@ -10,10 +10,27 @@ class BaseEnemy extends BaseSprite {
         this.colIndex = 0;
 
         this.vx = Constants.ENEMY_PAWN_SPEED_X;
+
+        this.maxHits = 0;
+        this.hitCount = 0;
+
+        this.isDead = false;
+
+        this.beamGenerator = [];
+        this.reloadTime = Constants.ENEMY_RELOAD_TIME;
+        this.beamGeneratorInterval = setInterval(() => {
+            this.generateBeam();
+        }, this.reloadTime);
+
     }
 
     move() {
         this.x += this.vx;
+        this.checkBounds();
+        this.beamGenerator.forEach(beam => beam.move());
+    }
+
+    checkBounds() {
         if(this.x < 40) {
             this.vx = Constants.ENEMY_PAWN_SPEED_X;
         } else if (this.x + 60 > this.ctx.canvas.width){
@@ -21,8 +38,25 @@ class BaseEnemy extends BaseSprite {
         }
     }
 
-    clear() {
+    checkLife() {
+        if (this.hitCount === this.maxHits) {
+            this.isDead = true;
+            //We need to clear the interval even thou the enemy is killed, because it's stored in the browser and the browser would try to invoke it everytime it renders.
+            clearInterval(this.beamGeneratorInterval);
+        } else {
+            this.isDead = false;
+        }
+    }
 
+    generateBeam() {
+        const beam = new LaserBeam(this.ctx, 2, 10, "/assets/images/sprites/laser-beam.sprite.png", this.x, this.y, "foe");
+        this.beamGenerator.push(beam);
+    }
+
+    clear() {
+        this.beamGenerator = this.beamGenerator
+            .filter(beam => !beam.isUsed)
+            .filter(beam => beam.y < this.ctx.canvas.height);
     }
 
     draw() {
@@ -45,9 +79,10 @@ class BaseEnemy extends BaseSprite {
                 this.width,
                 this.height
             );
+            this.checkLife();
+            this.animate();
+            this.beamGenerator.forEach(beam => beam.draw());
         }
-
-        this.animate();
         //Increase the number to change the frame
         this.drawCount++;
     }

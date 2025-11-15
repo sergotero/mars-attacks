@@ -15,6 +15,8 @@ class LaserBeam extends BaseSprite{
         this.vy = Constants.LASER_BEAM_SPEED_Y;
 
         this.type = type;
+        
+        this.isUsed = false;
     }
 
     move() {

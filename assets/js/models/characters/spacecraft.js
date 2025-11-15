@@ -8,8 +8,12 @@ class Spacecraft extends BaseSprite{
         //Laser beams
         this.beamGenerator = [];
         this.reloadTime = Constants.RELOAD_TIME;
-
         this.isFiring = false;
+
+        //Life
+        this.maxHits = 3;
+        this.hitCount = 0;
+        this.isDead = false;
     }
 
     onKeyPressed(event){
@@ -35,7 +39,7 @@ class Spacecraft extends BaseSprite{
                     this.isFiring = true;
                     const beam = new LaserBeam(this.ctx, 2, 10, "", (this.x + this.width / 2), this.y, "friend");
                     this.beamGenerator.push(beam);
-                    setTimeout(() => this.isFiring = false, Constants.RELOAD_TIME);
+                    setTimeout(() => this.isFiring = false, this.reloadTime);
                 }
                 break;
         }
@@ -43,21 +47,29 @@ class Spacecraft extends BaseSprite{
 
     move() {
         this.x += this.vx;
+        this.checkbounds();
+        this.beamGenerator.forEach((beam) => beam.move());
+    }
 
+    checkbounds() {
         if((this.x + this.width) > this.ctx.canvas.width) {
             this.x = this.ctx.canvas.width - this.width;
-            console.log(this.x, this.y);
-            
         } else if (this.x < 0) {
             this.x = 0;
         }
+    }
 
-        this.beamGenerator.forEach((beam) => beam.move());
+    checkLife() {
+        if (this.hitCount === this.maxHits) {
+            this.isDead = true;
+        }
     }
 
     //Clear bullets, not the ship itself
     clear(){
-
+        this.beamGenerator = this.beamGenerator
+            .filter((beam) => !beam.isUsed)
+            .filter((beam) => !(beam.y < 0));
     }
 
     draw(){
@@ -66,5 +78,6 @@ class Spacecraft extends BaseSprite{
             this.ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
         }
         this.beamGenerator.forEach((beam) => beam.draw());
+        this.clear();
     }
 }
