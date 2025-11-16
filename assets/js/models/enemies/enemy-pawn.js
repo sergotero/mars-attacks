@@ -11,21 +11,21 @@ class EnemyPawn extends BaseEnemy{
         switch(this.type) {
             case Constants.ENEMY_TYPE_A:
                 this.x = (this.ctx.canvas.width / 2);
-                this.y = 140;
+                this.y = Constants.INITIAL_STRONG_Y;
                 this.score = 80;
                 this.maxHits = 3;
                 this.sprite.src = "/assets/images/sprites/strong-enemy.sprite.png";
                 break;
             case Constants.ENEMY_TYPE_B:
                 this.x = (this.ctx.canvas.width / 2);
-                this.y = 170;
+                this.y = Constants.INITIAL_NORMAL_Y;
                 this.score = 40;
                 this.maxHits = 2;
                 this.sprite.src = "/assets/images/sprites/normal-enemy.sprite.png";
                 break;
             case Constants.ENEMY_TYPE_C:
                 this.x = (this.ctx.canvas.width / 2);
-                this.y = 200;
+                this.y = Constants.INITIAL_WEAK_Y;
                 this.score = 20;
                 this.maxHits = 1;
                 this.sprite.src = "/assets/images/sprites/weak-enemy.sprite.png";

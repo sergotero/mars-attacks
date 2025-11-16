@@ -32,7 +32,6 @@ class Game {
         //Player
         this.spacecraft = new Spacecraft(this.ctx, 40, 40, "/assets/images/sprites/spacecraft.sprite.png");
 
-        //Enemies
         this.enemies = [
             new EnemyPawn(this.ctx, 20, 22, "", 4, 1, "weak"),
             new EnemyPawn(this.ctx, 20, 22, "", 4, 1, "normal"),

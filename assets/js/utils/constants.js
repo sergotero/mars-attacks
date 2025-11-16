@@ -18,6 +18,18 @@ class Constants{
     static ARROW_DOWN = 40;
     static SPACE_BAR = 32;
 
+    //Margins
+    static MARGIN_RIGHT = 40;
+    static MARGIN_LEFT = 40;
+    static MARGIN_ENEMY_X = 10;
+    static MARGIN_ENEMY_Y = 10;
+
+    //Enemie's original positions
+    static INITIAL_Y = 200;
+    static INITIAL_WEAK_Y = this.INITIAL_Y;
+    static INITIAL_NORMAL_Y = (this.INITIAL_Y + (-22 -10));
+    static INITIAL_STRONG_Y = (this.INITIAL_Y + ((-22 -10) * 2));
+
     //Enemy types
     // static ENEMY_TYPE_A = "special";
     // static ENEMY_TYPE_B = "final-boss";
@@ -31,5 +43,5 @@ class Constants{
     static ENEMY_RELOAD_TIME = 3000;
 
     //Debug mode
-    static DEBUG = true;
+    static DEBUG = false;
 }
