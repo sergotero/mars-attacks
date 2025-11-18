@@ -6,22 +6,30 @@ class BaseArmy {
         this.height = height;
 
         this.weakArmy = [];
+        this.weakArmy.canFire = true;
+
         this.normalArmy = [];
+        this.normalArmy.canFire = false;
+
         this.strongArmy = [];
+        this.strongArmy.canFire = false;
 
     }
 
     setUpArmy(type, number = 11) {
-        for (let i = 0; i < number; i++){
+        for (let i = 0; i < number; i++) {
+
+            const reloadTime = this.getRandomReloadTime(3, 12) * 1000;
+
             switch (type) {
                 case "weak":
-                    this.weakArmy.push(new EnemyPawn(this.ctx, 20, 22, "", 4, 1, type));
+                    this.weakArmy.push(new EnemyPawn(this.ctx, 20, 22, "", 4, 1, reloadTime, type));
                     break;
                 case "normal":
-                    this.normalArmy.push(new EnemyPawn(this.ctx, 20, 22, "", 4, 1, type));
+                    this.normalArmy.push(new EnemyPawn(this.ctx, 20, 22, "", 4, 1, reloadTime, type));
                     break;
                 case "strong":
-                    this.strongArmy.push(new EnemyPawn(this.ctx, 20, 22, "", 4, 1, type));
+                    this.strongArmy.push(new EnemyPawn(this.ctx, 20, 22, "", 4, 1, reloadTime, type));
                     break;
             }
         }
@@ -61,6 +69,19 @@ class BaseArmy {
                 previousStrongX = enemy.x +  enemy.width;
             }
         });
+    }
+
+    getRandomReloadTime(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);;
+    }
+
+    setCanFire(army, bool) {
+        // army.forEach((enemy) => {
+        //     const delayTime = this.getRandomReloadTime(3, 80) * 1000;
+        //     setTimeout(() => {
+        //         enemy.canFire = bool;
+        //     }, delayTime);
+        // });
     }
 
 }

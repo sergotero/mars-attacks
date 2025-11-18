@@ -1,6 +1,6 @@
 class BaseEnemy extends BaseSprite {
     
-    constructor(ctx, width, height, sprite, rowFrames, colFrames) {
+    constructor(ctx, width, height, sprite, rowFrames, colFrames, reloadTime) {
         super(ctx, width, height, sprite);
 
         this.rowFrames = rowFrames;
@@ -15,19 +15,23 @@ class BaseEnemy extends BaseSprite {
         this.hitCount = 0;
 
         this.isDead = false;
+        this.canFire;
+        this.fireDelay;
 
         this.beamGenerator = [];
-        this.reloadTime = Constants.ENEMY_RELOAD_TIME;
+        this.reloadTime = reloadTime;
+
         this.beamGeneratorInterval = setInterval(() => {
             this.generateBeam();
         }, this.reloadTime);
-
     }
 
     move() {
         this.x += this.vx;
         this.checkBounds();
-        this.beamGenerator.forEach(beam => beam.move());
+        if (this.canFire) {
+            this.beamGenerator.forEach(beam => beam.move());
+        }
     }
 
     checkBounds() {
@@ -81,7 +85,10 @@ class BaseEnemy extends BaseSprite {
             );
             this.checkLife();
             this.animate();
-            this.beamGenerator.forEach(beam => beam.draw());
+            
+            if (this.canFire) {
+                this.beamGenerator.forEach(beam => beam.draw());
+            }
         }
         //Increase the number to change the frame
         this.drawCount++;
@@ -93,13 +100,4 @@ class BaseEnemy extends BaseSprite {
         }
     }
 
-    animateFrames(initialRowFrame, initialColFrame, rowFrames, frequency) {
-        if(this.rowIndex !== initialRowFrame) {
-            this.rowIndex = initialRowFrame;
-            this.colIndex = initialColFrame;
-        } else if (this.drawCount % frequency === 0) {
-            this.drawCount = 0;
-            this.rowIndex = (this.rowIndex + 1) % rowFrames;
-        }
-    }
 }

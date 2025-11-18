@@ -1,4 +1,4 @@
-class Spacecraft extends BaseSprite{
+class Spacecraft extends BaseSprite {
 
     constructor(ctx, width, height, sprite) {
         super(ctx, width, height, sprite);
@@ -66,13 +66,13 @@ class Spacecraft extends BaseSprite{
     }
 
     //Clear bullets, not the ship itself
-    clear(){
+    clear() {
         this.beamGenerator = this.beamGenerator
             .filter((beam) => !beam.isUsed)
             .filter((beam) => !(beam.y < 0));
     }
 
-    draw(){
+    draw() {
         if(this.sprite.isReady) {
             if (Constants.DEBUG) Utils.debuggin(this);
             this.ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);

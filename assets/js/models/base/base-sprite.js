@@ -25,12 +25,16 @@ class BaseSprite extends BaseModel {
             //To capture naturalWidth/Height we have to wait until the image is loaded
             this.frameWidth = this.sprite.naturalWidth / this.rowFrames;
             this.frameHeight = this.sprite.naturalHeight / this.colFrames;
+        }    
+    }
+
+    animateFrames(initialRowFrame, initialColFrame, rowFrames, frequency) {
+        if(this.rowIndex !== initialRowFrame) {
+            this.rowIndex = initialRowFrame;
+            this.colIndex = initialColFrame;
+        } else if (this.drawCount % frequency === 0) {
+            this.drawCount = 0;
+            this.rowIndex = (this.rowIndex + 1) % rowFrames;
         }
-
-
-        // --> CONSULTAR
-        //Virtual matrix for frames
-        // this.frameWidth = this.width / this.rowFrames;
-        // this.frameHeight = this.height / this.colFrames;
     }
 }
