@@ -31,9 +31,9 @@ class BaseEnemy extends BaseSprite {
     }
 
     checkBounds() {
-        if(this.x < 40) {
+        if(this.x < 0) {
             this.vx = Constants.ENEMY_PAWN_SPEED_X;
-        } else if (this.x + 60 > this.ctx.canvas.width){
+        } else if (this.x + this.width > this.ctx.canvas.width){
             this.vx = -this.vx;
         }
     }

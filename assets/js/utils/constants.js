@@ -43,5 +43,5 @@ class Constants{
     static ENEMY_RELOAD_TIME = 3000;
 
     //Debug mode
-    static DEBUG = false;
+    static DEBUG = true;
 }
