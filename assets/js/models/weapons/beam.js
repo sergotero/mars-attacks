@@ -1,7 +1,7 @@
-class LaserBeam extends BaseSprite{
+class Beam extends Spritable{
 
-    constructor(ctx, width, height, sprite, x, y, type){
-        super(ctx, width, height, sprite = "/assets/images/sprites/laser-beam.sprite.png");
+    constructor(ctx, width, height, sprite, x, y, direction){
+        super(ctx, width, height, sprite);
 
         this.x = x;
         this.y = y;
@@ -14,15 +14,15 @@ class LaserBeam extends BaseSprite{
 
         this.vy = Constants.LASER_BEAM_SPEED_Y;
 
-        this.type = type;
+        this.direction = direction;
         
         this.isUsed = false;
     }
 
     move() {
-        if(this.type === "friend") {
+        if(this.direction === "up") {
             this.y += -this.vy;
-        } else if (this.type === "foe") {
+        } else if (this.direction === "down") {
             this.y += this.vy;
         }
     }

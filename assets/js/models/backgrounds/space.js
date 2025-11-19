@@ -1,4 +1,4 @@
-class Space extends BaseSprite{
+class Space extends Spritable{
 
     constructor(ctx, width, height, sprite){
         super(ctx, width, height, sprite);

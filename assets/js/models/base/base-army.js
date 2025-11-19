@@ -20,16 +20,20 @@ class BaseArmy {
         for (let i = 0; i < number; i++) {
 
             const reloadTime = this.getRandomReloadTime(3, 12) * 1000;
+            let pawn;
 
             switch (type) {
                 case "weak":
-                    this.weakArmy.push(new EnemyPawn(this.ctx, 20, 22, "", 4, 1, reloadTime, type));
+                    pawn = new Pawn(this.ctx, 20, 22, "", 4, 1, reloadTime, type);
+                    this.weakArmy.push(pawn);
                     break;
                 case "normal":
-                    this.normalArmy.push(new EnemyPawn(this.ctx, 20, 22, "", 4, 1, reloadTime, type));
+                    pawn = new Pawn(this.ctx, 20, 22, "", 4, 1, reloadTime, type);
+                    this.normalArmy.push(pawn);
                     break;
                 case "strong":
-                    this.strongArmy.push(new EnemyPawn(this.ctx, 20, 22, "", 4, 1, reloadTime, type));
+                    pawn = new Pawn(this.ctx, 20, 22, "", 4, 1, reloadTime, type);
+                    this.strongArmy.push(pawn);
                     break;
             }
         }
@@ -72,16 +76,24 @@ class BaseArmy {
     }
 
     getRandomReloadTime(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);;
+        return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    setCanFire(army, bool) {
-        // army.forEach((enemy) => {
-        //     const delayTime = this.getRandomReloadTime(3, 80) * 1000;
-        //     setTimeout(() => {
-        //         enemy.canFire = bool;
-        //     }, delayTime);
-        // });
-    }
+    checkCanFire() {
+        if (this.normalArmy.canFire) {
+            this.normalArmy.forEach(enemy => {
+                const random = this.getRandomReloadTime(3, 12) * 1000;
+                enemy.canFire = true;
+                enemy.reloadTime = random;
+            });
+        }
 
+        if (this.strongArmy.canFire) {
+            this.strongArmy.forEach(enemy => {
+                const random = this.getRandomReloadTime(3, 12) * 1000;
+                enemy.canFire = true;
+                enemy.reloadTime = random;
+            });
+        }
+    }
 }

@@ -1,4 +1,4 @@
-class Spacecraft extends BaseSprite {
+class Spacecraft extends Spritable {
 
     constructor(ctx, width, height, sprite) {
         super(ctx, width, height, sprite);
@@ -37,9 +37,9 @@ class Spacecraft extends BaseSprite {
             case Constants.SPACE_BAR:
                 if(!this.isFiring){
                     this.isFiring = true;
-                    const beam = new LaserBeam(this.ctx, 2, 10, "", (this.x + this.width / 2), this.y, "friend");
+                    const beam = new FinalBeam(this.ctx, 2, 10, "", (this.x + this.width / 2), this.y, "up", "laser");
                     this.beamGenerator.push(beam);
-                    setTimeout(() => this.isFiring = false, this.reloadTime);
+                    this.idReload = setTimeout(() => this.isFiring = false, this.reloadTime);
                 }
                 break;
         }

@@ -1,4 +1,4 @@
-class EnemyPawn extends BaseEnemy{
+class Pawn extends Enemy{
 
     constructor(ctx, width, height, sprite, rowFrames, colFrames, reloadTime, type) {
         super(ctx, width, height, sprite, rowFrames, colFrames, reloadTime, type);
@@ -36,6 +36,24 @@ class EnemyPawn extends BaseEnemy{
         }
 
         this.vx = Constants.ENEMY_PAWN_SPEED_X;
+    }
+
+    generateBeam() {
+        let beam;
+        switch (this.type) {
+            case Constants.ENEMY_TYPE_C:
+                beam = new FinalBeam(this.ctx, 2, 10, "", this.x, this.y, "down", "laser");
+                this.beamGenerator.push(beam);
+                break;
+            case Constants.ENEMY_TYPE_B:
+                beam = new FinalBeam(this.ctx, 7, 20, "", this.x, this.y, "down", "fire");
+                this.beamGenerator.push(beam);
+                break;
+            case Constants.ENEMY_TYPE_A:
+                beam = new FinalBeam(this.ctx, 7, 20, "", this.x, this.y, "down", "energy");
+                this.beamGenerator.push(beam);
+                break;
+        }
     }
 
 }

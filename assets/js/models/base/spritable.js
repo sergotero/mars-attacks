@@ -1,4 +1,4 @@
-class BaseSprite extends BaseModel {
+class Spritable extends BaseModel {
 
     constructor(ctx, width, height, sprite = "", rowFrames, colFrames) {
         super(ctx, width, height);

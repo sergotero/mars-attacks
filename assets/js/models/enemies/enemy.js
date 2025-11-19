@@ -1,4 +1,4 @@
-class BaseEnemy extends BaseSprite {
+class Enemy extends Spritable {
     
     constructor(ctx, width, height, sprite, rowFrames, colFrames, reloadTime) {
         super(ctx, width, height, sprite);
@@ -16,13 +16,14 @@ class BaseEnemy extends BaseSprite {
 
         this.isDead = false;
         this.canFire;
-        this.fireDelay;
 
         this.beamGenerator = [];
         this.reloadTime = reloadTime;
 
         this.beamGeneratorInterval = setInterval(() => {
-            this.generateBeam();
+            if (this.beamGenerator.length <= 0) {
+                this.generateBeam();
+            }
         }, this.reloadTime);
     }
 
@@ -47,14 +48,14 @@ class BaseEnemy extends BaseSprite {
             this.isDead = true;
             //We need to clear the interval even thou the enemy is killed, because it's stored in the browser and the browser would try to invoke it everytime it renders.
             clearInterval(this.beamGeneratorInterval);
+            this.beamGenerator = [];
         } else {
             this.isDead = false;
         }
     }
 
+    //This method is implemented in the extended classes
     generateBeam() {
-        const beam = new LaserBeam(this.ctx, 2, 10, "/assets/images/sprites/laser-beam.sprite.png", this.x, this.y, "foe");
-        this.beamGenerator.push(beam);
     }
 
     clear() {

@@ -5,6 +5,9 @@ class Constants{
     //Frames per second
     static FPS = 1000/60;
 
+    //Boosters' generation
+    static BOOSTER_GENERATION_TIME = 10000;
+
     //Speed
     static SKY_PACE = 0.3;
     static SPACECRAFT_SPEED_X = 3;
@@ -42,5 +45,5 @@ class Constants{
     static RELOAD_TIME = 200;
 
     //Debug mode
-    static DEBUG = false;
+    static DEBUG = true;
 }
