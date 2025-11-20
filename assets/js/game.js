@@ -31,14 +31,16 @@ class Game {
         this.space = new Space(this.ctx, this.canvas.width, this.canvas.height, "/assets/images/backgrounds/bg-main.png");
 
         //Player
-        this.spacecraft = new Spacecraft(this.ctx, 40, 40, "/assets/images/sprites/spacecraft.sprite.png");
+        this.spacecraft = new Spacecraft(this.ctx, 40, 40, "/assets/images/sprites/spacecraft.sprite.png", 4, 4);
 
         //Enemies
         this.army = new BaseArmy(this.ctx, this.width, this.height);
         this.army.setUpArmy("weak");
         this.army.setUpArmy("normal");
         this.army.setUpArmy("strong");
-        this.army.placeArmy(); 
+        this.army.placeArmy();
+
+        this.boss = new Boss(this.ctx, 40, 40, "", 4, 3);
 
         //Special objects
         this.boosters = [];
@@ -81,6 +83,8 @@ class Game {
         this.army.normalArmy.forEach(enemy => clearInterval(enemy.beamGeneratorInterval));
         this.army.strongArmy.forEach(enemy => clearInterval(enemy.beamGeneratorInterval));
 
+        clearInterval(this.boss.idInterval);
+
         this.time.stop();
     }
 
@@ -92,6 +96,10 @@ class Game {
         this.army.normalArmy.forEach(enemy => enemy.move());
         this.army.strongArmy.forEach(enemy => enemy.move());
         this.boosters.forEach(booster => booster.move());
+        if (this.boss.isReady) {
+            this.boss.move();
+            this.boss.beamGenerator.forEach(beam => beam.move());
+        }
     }
 
     checkCollisions() {
@@ -161,6 +169,24 @@ class Game {
             });
         });
 
+
+        //BOSS
+        this.boss.beamGenerator.forEach((beam) => {
+            this.spacecraft.beamGenerator.forEach((beam) => {
+                if(beam.checkCollisions(this.boss) && beam.direction === "up" && this.boss.isReady) {
+                    this.boss.hitCount++;
+                    this.boss.checkLife();
+                    beam.isUsed = true;
+                }
+            });
+            
+            if (beam.checkCollisions(this.spacecraft) && beam.direction === "down") {
+                this.spacecraft.hitCount++;
+                this.spacecraft.checkLife();
+                beam.isUsed = true;
+            }
+        });
+
         //BOOSTERS
         this.boosters.forEach((booster) => {
             if (booster.checkCollisions(this.spacecraft) && booster.type === "cherry") {
@@ -181,6 +207,7 @@ class Game {
         if (this.army.normalArmy.length < 8) {
             this.army.strongArmy.canFire = true;
         }
+        this.army.checkCanFire();
     }
 
     generateBoosters() {
@@ -192,37 +219,36 @@ class Game {
         switch (item) {
             case "cherry":
                 booster = new Booster(this.ctx, 20, 20, "", 1, 1, item);
-                console.log(booster);
-                console.log(booster.sprite);
+                //console.log(booster);
                 this.boosters.push(booster);
                 break;
             case "strawberry":
                 booster = new Booster(this.ctx, 20, 20, "", 1, 1, item);
-                console.log(booster);
-                console.log(booster.sprite);
+                //console.log(booster);
                 this.boosters.push(booster);
                 break;
         }
     }
 
-
     //Update scores, lives, etc.
     update() {
         this.gameOver();
-
+        
         if (this.spacecraft.isDead) {
             this.lives--;
+            this.spacecraft.isDead = false;
+        }
+
+        if (this.army.weakArmy.length === 0 &&
+            this.army.normalArmy.length === 0 &&
+            this.army.strongArmy.length === 0) {
+                this.boss.isReady = true;
+                this.boss.checkLife();
         }
 
         this.scoreDOM.textContent = Number(this.score);
         this.livesDOM.textContent = (Number(this.lives) <= 0)? +0 : Number(this.lives);
-        this.timeDOM.textContent = `${this.time.hours}:${this.time.minutes}:${this.time.seconds}`;
-    }
-
-    clearBoosters() {
-        this.boosters = this.boosters
-            .filter(booster => !booster.isUsed)
-            .filter(booster => booster.y < this.ctx.canvas.height);
+        this.timeDOM.textContent = this.time.toString();
     }
 
     clear() {
@@ -238,7 +264,13 @@ class Game {
         this.army.strongArmy.forEach(enemy => enemy.clear());
         this.army.strongArmy = this.army.strongArmy.filter(enemy => !enemy.isDead);
 
-        this.clearBoosters();
+        if(this.boss.isReady) {
+            this.boss.clear();
+        }
+
+        this.boosters = this.boosters
+            .filter(booster => !booster.isUsed)
+            .filter(booster => booster.y < this.ctx.canvas.height);
     }
 
     draw() {
@@ -250,16 +282,18 @@ class Game {
         this.army.strongArmy.forEach(enemy => enemy.draw());
 
         this.boosters.forEach(booster => booster.draw());
+
+        if(this.boss.isReady) {
+            this.boss.draw();
+            this.boss.beamGenerator.forEach(beam => beam.draw());
+        }
     }
 
     gameOver() {
         if (this.lives === 0) {
             this.stop();
         }
-
-        if (this.army.weakArmy.length === 0 &&
-            this.army.normalArmy.length === 0 &&
-            this.army.strongArmy.length === 0) {
+        if (this.boss.isDead) {
             this.stop();
         }
     }

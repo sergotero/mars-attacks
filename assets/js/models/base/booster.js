@@ -4,8 +4,8 @@ class Booster extends Spritable {
         super(ctx, width, height, sprite, rowFrames, colFrames);
 
         this.y = 0;
-
         this.x = Math.floor(Math.random() * (this.ctx.canvas.width - this.width));
+
         this.vy = Constants.LASER_BEAM_SPEED_Y;
         this.type = type;
         this.isUsed = false;

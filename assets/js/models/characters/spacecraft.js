@@ -62,6 +62,7 @@ class Spacecraft extends Spritable {
     checkLife() {
         if (this.hitCount === this.maxHits) {
             this.isDead = true;
+            this.hitCount = 0;
         }
     }
 

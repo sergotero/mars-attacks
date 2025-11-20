@@ -12,8 +12,8 @@ class Spritable extends BaseModel {
         this.colFrames = colFrames;
 
         //Frame Indexes
-        this.rowIndex;
-        this.colIndex;
+        this.rowIndex = 0;
+        this.colIndex = 0;
 
         //Draw count (for animations)
         this.drawCount = 0;
