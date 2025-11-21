@@ -24,6 +24,12 @@ class Booster extends Spritable {
                 // this.height = 30;
                 break;
         }
+
+        //Audio
+        this.audio = new Audio("/assets/audio/booster.wav");
+        this.audio.onloadeddata = () => {
+            this.audio.volume = 0.1;
+        }
     }
 
     move() {

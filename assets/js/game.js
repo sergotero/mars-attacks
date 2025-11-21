@@ -27,6 +27,7 @@ class Game {
         //TimeCounter
         this.timeDOM = document.getElementById(idTimeDOM);
         this.time = new TimeCounter();
+
         //Background
         this.space = new Space(this.ctx, this.canvas.width, this.canvas.height, "/assets/images/backgrounds/bg-main.png");
 
@@ -35,10 +36,10 @@ class Game {
 
         //Enemies
         this.army = new BaseArmy(this.ctx, this.width, this.height);
-        this.army.setUpArmy("weak");
-        this.army.setUpArmy("normal");
-        this.army.setUpArmy("strong");
-        this.army.placeArmy();
+        // this.army.setUpArmy("weak");
+        // this.army.setUpArmy("normal");
+        // this.army.setUpArmy("strong");
+        // this.army.placeArmy();
 
         this.boss = new Boss(this.ctx, 40, 40, "", 4, 3);
 
@@ -84,6 +85,8 @@ class Game {
         this.army.strongArmy.forEach(enemy => clearInterval(enemy.beamGeneratorInterval));
 
         clearInterval(this.boss.idInterval);
+
+        this.space.audio.pause();
 
         this.time.stop();
     }
@@ -172,17 +175,16 @@ class Game {
 
         //BOSS
         this.boss.beamGenerator.forEach((beam) => {
-            this.spacecraft.beamGenerator.forEach((beam) => {
-                if(beam.checkCollisions(this.boss) && beam.direction === "up" && this.boss.isReady) {
-                    this.boss.hitCount++;
-                    this.boss.checkLife();
-                    beam.isUsed = true;
-                }
-            });
-            
             if (beam.checkCollisions(this.spacecraft) && beam.direction === "down") {
                 this.spacecraft.hitCount++;
                 this.spacecraft.checkLife();
+                beam.isUsed = true;
+            }
+        });
+        this.spacecraft.beamGenerator.forEach((beam) => {
+            if (beam.checkCollisions(this.boss) && beam.direction === "up" && this.boss.isReady) {
+                this.boss.hitCount++;
+                this.boss.checkLife();
                 beam.isUsed = true;
             }
         });
@@ -190,10 +192,12 @@ class Game {
         //BOOSTERS
         this.boosters.forEach((booster) => {
             if (booster.checkCollisions(this.spacecraft) && booster.type === "cherry") {
+                booster.audio.play();
                 this.score += booster.score;
                 booster.isUsed = true;
             }
             if (booster.checkCollisions(this.spacecraft) && booster.type === "strawberry") {
+                booster.audio.play();
                 this.score += booster.score;
                 booster.isUsed = true;
             }
@@ -249,6 +253,9 @@ class Game {
         this.scoreDOM.textContent = Number(this.score);
         this.livesDOM.textContent = (Number(this.lives) <= 0)? +0 : Number(this.lives);
         this.timeDOM.textContent = this.time.toString();
+        console.log("Boss: ", this.boss.hitCount);
+        console.log("Spacecraft: ", this.spacecraft.hitCount);
+        
     }
 
     clear() {

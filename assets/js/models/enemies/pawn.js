@@ -52,7 +52,7 @@ class Pawn extends Enemy{
             case Constants.ENEMY_TYPE_A:
                 beam = new FinalBeam(this.ctx, 7, 20, "", this.x, this.y, "down", "energy");
                 this.beamGenerator.push(beam);
-                break;
+            break;
         }
     }
 

@@ -11,7 +11,6 @@ class FinalBeam extends Beam{
                 break;
             case "fire":
                 this.sprite.src = "/assets/images/sprites/fire-beam.sprite.png";
-
                 break;
             case "energy":
                 this.sprite.src = "/assets/images/sprites/energy-beam.sprite.png";

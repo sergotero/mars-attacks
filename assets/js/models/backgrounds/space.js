@@ -2,6 +2,14 @@ class Space extends Spritable{
 
     constructor(ctx, width, height, sprite){
         super(ctx, width, height, sprite);
+
+        //Audio
+        this.audio = new Audio("/assets/audio/main3.wav");
+        this.audio.onloadeddata = () => {
+            this.audio.volume = 0.1;
+            //this.audio.play();
+            this.audio.loop = true;
+        }
     }
 
     move() {
