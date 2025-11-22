@@ -14,6 +14,7 @@ class Spacecraft extends Spritable {
         this.maxHits = 3;
         this.hitCount = 0;
         this.isDead = false;
+        this.immunity = false;
 
         //Audio
         this.audio = new Audio("/assets/audio/laser-gun.wav");

@@ -26,6 +26,7 @@ class Game {
 
         //TimeCounter
         this.timeDOM = document.getElementById(idTimeDOM);
+        
         this.time = new TimeCounter();
 
         //Background
@@ -36,39 +37,48 @@ class Game {
 
         //Enemies
         this.army = new BaseArmy(this.ctx, this.width, this.height);
-        this.army.setUpArmy("weak");
-        this.army.setUpArmy("normal");
-        this.army.setUpArmy("strong");
-        this.army.placeArmy();
+        // this.army.setUpArmy("weak");
+        // this.army.setUpArmy("normal");
+        // this.army.setUpArmy("strong");
+        // this.army.placeArmy();
 
         this.boss = new Boss(this.ctx, 40, 40, "", 4, 3);
 
         //Special objects
         this.boosters = [];
+
+        //Game Start (prevents starting the game multiple times)
+        this.isStarted = false;
+
+        //Game Over (creates a custom Event)
+        this.isOverEvent = new Event("gameOver");
     }
 
     start() {
-        //The game starts
-        this.idInterval = setInterval(() => {
-            this.clear();
-            this.move();
-            this.checkCollisions();
-            this.checkCanFire();
-            this.update();
-            this.draw();
-        }, Constants.FPS);
-        
-        this.idOtherInterval = setInterval(() => {
-            if (this.boosters.length <= 0) {
-                this.generateBoosters();
-            }
-        }, Constants.BOOSTER_GENERATION_TIME);
+        if(!this.isStarted) {
+            this.isStarted = true;
+            this.time.start();
+            //The game starts
+            this.idInterval = setInterval(() => {
+                this.clear();
+                this.move();
+                this.checkCollisions();
+                this.checkCanFire();
+                this.update();
+                this.draw();
+            }, Constants.FPS);
+            
+            this.idOtherInterval = setInterval(() => {
+                if (this.boosters.length <= 0) {
+                    this.generateBoosters();
+                }
+            }, Constants.BOOSTER_GENERATION_TIME);
+        }
     }
 
     setUpListeners() {
         addEventListener("keydown", (event) => this.spacecraft.onKeyPressed(event));
         addEventListener("keyup", (event) => this.spacecraft.onKeyPressed(event));
-        addEventListener("load", () => this.time.start());
     }
 
     stop() {
@@ -101,7 +111,9 @@ class Game {
         this.boosters.forEach(booster => booster.move());
         if (this.boss.isReady) {
             this.boss.move();
-            this.boss.beamGenerator.forEach(beam => beam.move());
+            if (this.boss.canFire) {
+                this.boss.beamGenerator.forEach(beam => beam.move());
+            }
         }
     }
 
@@ -155,9 +167,13 @@ class Game {
             //Checks if any enemy has collided with a laser beam from the spacecraft
             this.spacecraft.beamGenerator.forEach((beam) => {
                 if(enemy.checkCollisions(beam) && beam.direction === "up") {
-                    enemy.hitCount++;
-                    enemy.checkLife();
-                    this.score += enemy.score;
+                    if(!this.spacecraft.immunity) {
+                        enemy.hitCount++;
+                        enemy.checkLife();
+                        this.score += enemy.score;
+                        this.spacecraft.immunity = true;
+                        const idImmunity = setTimeout(()=> this.spacecraft.immunity = false, 1000);
+                    }
                     beam.isUsed = true;
                 }
             });
@@ -176,8 +192,12 @@ class Game {
         //BOSS
         this.boss.beamGenerator.forEach((beam) => {
             if (beam.checkCollisions(this.spacecraft) && beam.direction === "down") {
-                this.spacecraft.hitCount++;
-                this.spacecraft.checkLife();
+                if(!this.spacecraft.immunity) {
+                    this.spacecraft.hitCount++;
+                    this.spacecraft.checkLife();
+                    this.spacecraft.immunity = true;
+                    const idImmunity = setTimeout(()=> this.spacecraft.immunity = false, 1000);
+                }
                 beam.isUsed = true;
             }
         });
@@ -223,12 +243,10 @@ class Game {
         switch (item) {
             case "cherry":
                 booster = new Booster(this.ctx, 20, 20, "", 1, 1, item);
-                //console.log(booster);
                 this.boosters.push(booster);
                 break;
             case "strawberry":
                 booster = new Booster(this.ctx, 20, 20, "", 1, 1, item);
-                //console.log(booster);
                 this.boosters.push(booster);
                 break;
         }
@@ -253,9 +271,6 @@ class Game {
         this.scoreDOM.textContent = Number(this.score);
         this.livesDOM.textContent = (Number(this.lives) <= 0)? +0 : Number(this.lives);
         this.timeDOM.textContent = this.time.toString();
-        // console.log("Boss: ", this.boss.hitCount);
-        // console.log("Spacecraft: ", this.spacecraft.hitCount);
-        
     }
 
     clear() {
@@ -299,9 +314,12 @@ class Game {
     gameOver() {
         if (this.lives === 0) {
             this.stop();
+            //Sends the custom event to Window
+            window.dispatchEvent(this.isOverEvent);
         }
         if (this.boss.isDead) {
             this.stop();
+            window.dispatchEvent(this.isOverEvent);
         }
     }
 

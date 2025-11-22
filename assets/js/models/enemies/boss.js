@@ -14,9 +14,10 @@ class Boss extends Enemy {
 
         this.isReady = false;
         this.isInvoked = false;
+        this.canFire = false;
 
         this.beamGeneratorInterval = setInterval(() => {
-            if (this.beamGenerator.length < 3) {
+            if (this.beamGenerator.length < 3 && this.canFire) {
                 this.generateBeam();
             }
         }, this.reloadTime);
@@ -27,8 +28,17 @@ class Boss extends Enemy {
             this.y += this.vy;  
         } else if (this.y === Constants.INITIAL_STRONG_Y) {
             this.vy = 0;
+            this.canFire = true;
             this.x += this.vx;
             this.checkBounds();
+        }
+    }
+
+    checkBounds() {
+        if(this.x < 0) {
+            this.vx = Constants.BOSS_SPEED_X;
+        } else if (this.x + this.width > this.ctx.canvas.width){
+            this.vx = -this.vx;
         }
     }
 

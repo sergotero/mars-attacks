@@ -15,14 +15,11 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: none;
+    cursor: url("/assets/images/elements/pointer2.svg") 12 12, auto;
 }
 
-.puntero{
-    position: absolute;
-    height: 2rem;
-    width: 2rem;
-    z-index: 10;
+.hidden{
+    visibility: hidden;
 }
 
 .main-screen {
@@ -48,16 +45,28 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start;
+    justify-content: center;
     width: 401px;
     background-color: rgba(0, 0, 0, 0.658);
     z-index: 6;
     border-radius: 15px;
 }
 
+.start-screen .load h1{
+    font-size: 4rem;
+    margin: 0px;
+}
+
+.start-screen .load h2{
+    font-size: 1.1rem;
+    padding: 4% 10%;
+    margin: 0px;
+}
+
 .start-screen .load p {
     text-align: center;
-    padding: 15%;
+    margin: 0px;
+    padding: 10% 5%;
 }
 
 .start-screen .load a {
@@ -72,7 +81,7 @@ body{
 }
 
 .start-screen .load a:hover{
-    background-color: rgba(255, 255, 0, 0.418);
+    background-color: rgba(250, 3, 147, 0.623);
 }
 
 .extra{
