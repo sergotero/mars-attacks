@@ -20,4 +20,4 @@ jobs:
         run: npm install -g netlify-cli
 
       - name: Netlify Deploy
-        uses: netlify deploy --prod
+        run: netlify deploy --prod
