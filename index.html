@@ -13,17 +13,29 @@
     <title>Mars Attacks</title>
 </head>
 <body>
-    <div class="game-info">
-        <p>Score <span id="score">0</span></p>
-        <p>Lives <span id="lives">3</span></p>
-        <p>Time <span id="time">0</span></p>
+    <img class="puntero" alt="pointer" src="/assets/images/elements/pointer2.svg" id="puntero">
+    <div class="extra">
+        <div class="game-info">
+            <h1>SCORE</h1>
+            <p id="score">0</p>
+            <p>Lives <span id="lives">3</span></p>
+            <p id="time">0</p>
+        </div>
+        <div class="game-instructions">
+            <h1>INSTRUCTIONS</h1>
+            <p>Press the left or right arrow keys to move the spacecraft horizontally.</p>
+            <img src="" alt="" id="">
+            <p>Press the space bar to shoot.</p>
+            <img src="" alt="" id="">
+            <p>Avoid the enemy fire and try to catch as many fruits as possible. Remember: an apple a day, keeps the doctor away!</p>
+        </div>
     </div>
     <canvas id="game-screen" width="400" height="800"> 
     </canvas>
     <!-- Only for debuggin -->
-    <div class="framework">
+    <!-- <div class="framework">
         <div class="inner-framework"></div>
-    </div>
+    </div> -->
 </body>
     <!-- CONSTANTS -->
     <script src="assets/js/utils/constants.js"></script>

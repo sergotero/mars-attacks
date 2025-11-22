@@ -36,10 +36,10 @@ class Game {
 
         //Enemies
         this.army = new BaseArmy(this.ctx, this.width, this.height);
-        // this.army.setUpArmy("weak");
-        // this.army.setUpArmy("normal");
-        // this.army.setUpArmy("strong");
-        // this.army.placeArmy();
+        this.army.setUpArmy("weak");
+        this.army.setUpArmy("normal");
+        this.army.setUpArmy("strong");
+        this.army.placeArmy();
 
         this.boss = new Boss(this.ctx, 40, 40, "", 4, 3);
 
@@ -253,8 +253,8 @@ class Game {
         this.scoreDOM.textContent = Number(this.score);
         this.livesDOM.textContent = (Number(this.lives) <= 0)? +0 : Number(this.lives);
         this.timeDOM.textContent = this.time.toString();
-        console.log("Boss: ", this.boss.hitCount);
-        console.log("Spacecraft: ", this.spacecraft.hitCount);
+        // console.log("Boss: ", this.boss.hitCount);
+        // console.log("Spacecraft: ", this.spacecraft.hitCount);
         
     }
 
