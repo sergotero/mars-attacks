@@ -37,10 +37,10 @@ class Game {
 
         //Enemies
         this.army = new BaseArmy(this.ctx, this.width, this.height);
-        // this.army.setUpArmy("weak");
-        // this.army.setUpArmy("normal");
-        // this.army.setUpArmy("strong");
-        // this.army.placeArmy();
+        this.army.setUpArmy("weak");
+        this.army.setUpArmy("normal");
+        this.army.setUpArmy("strong");
+        this.army.placeArmy();
 
         this.boss = new Boss(this.ctx, 40, 40, "", 4, 3);
 
