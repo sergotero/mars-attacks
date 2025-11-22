@@ -1,6 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
-
-
+document.getElementById("start").addEventListener("click", () => {
     
     //Game initialization
     const game = new Game("game-screen", "score", "lives", "time");

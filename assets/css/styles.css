@@ -49,15 +49,17 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: start;
-    width: 400px;
+    width: 401px;
     background-color: rgba(0, 0, 0, 0.658);
     z-index: 6;
+    border-radius: 15px;
 }
 
 .start-screen .load p {
     text-align: center;
     padding: 15%;
 }
+
 .start-screen .load a {
     display: flex;
     align-items: center;
@@ -111,6 +113,7 @@ body{
 .game-info-score h1, .game-instructions h1, .game-info-lives h1 {
     text-align: center;
     margin: 3px;
+    letter-spacing: 0.5rem;
 }
 
 canvas {
