@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v6
