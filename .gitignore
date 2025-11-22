@@ -1,1 +1,10 @@
 /Project_Module_1.md
+.vscode
+/assets/images/sprites/illustrator
+/assets/images/backgrounds/Blue Nebula
+/assets/images/backgrounds/Green Nebula
+/assets/images/backgrounds/Purple Nebula
+/assets/images/backgrounds/Starfields Nebula
+
+# Local Netlify folder
+.netlify

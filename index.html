@@ -14,28 +14,46 @@
 </head>
 <body>
     <img class="puntero" alt="pointer" src="/assets/images/elements/pointer2.svg" id="puntero">
-    <div class="extra">
-        <div class="game-info">
-            <h1>SCORE</h1>
-            <p id="score">0</p>
-            <p>Lives <span id="lives">3</span></p>
-            <p id="time">0</p>
+    <div class="main-screen">
+        <div class="start-screen">
+            <div class="empty"></div>
+            <div class="load">
+                <p>
+                    Alien forces are closing in! Defend your ship, dodge incoming fire, and push back the Martian invasion. For decades, Mars has watched humanity grow stronger—now they strike to seize the solar frontier. As Earth’s last line of defense, you’re launched into the skies to stop the first wave before it reaches the surface. Stay sharp, pilot—Earth’s fate is in your hands. Ready to begin?
+                </p>
+                <a href="">Let the war begin!</a>
+            </div>
         </div>
-        <div class="game-instructions">
-            <h1>INSTRUCTIONS</h1>
-            <p>Press the left or right arrow keys to move the spacecraft horizontally.</p>
-            <img src="" alt="" id="">
-            <p>Press the space bar to shoot.</p>
-            <img src="" alt="" id="">
-            <p>Avoid the enemy fire and try to catch as many fruits as possible. Remember: an apple a day, keeps the doctor away!</p>
+        <div class="extra">
+            <div class="game-info-card">
+                <div class="game-info">
+                    <div class="game-info-score">
+                        <h1>SCORE</h1>
+                        <p id="score">0</p>
+                    </div>
+                    <div class="game-info-lives">
+                        <h1>LIVES</h1>
+                        <p id="lives">3</p>
+                    </div>
+                </div>
+                <p id="time">0</p>
+            </div>
+            <div class="game-instructions">
+                <h1>INSTRUCTIONS</h1>
+                <p>Press the left or right arrow keys to move the spacecraft horizontally.</p>
+                <img alt="keys" src="/assets/images/elements/keys.svg" name="keys">
+                <p>Press the space bar to shoot.</p>
+                <img alt="space bar" src="/assets/images/elements/space-bar.svg" name="space-bar">
+                <p>Avoid the enemy fire and try to catch as many fruits as possible. Remember: an apple a day, keeps the doctor away!</p>
+            </div>
         </div>
+        <canvas id="game-screen" width="400" height="800"> 
+        </canvas>
+        <!-- Only for debuggin -->
+        <!-- <div class="framework">
+            <div class="inner-framework"></div>
+        </div> -->
     </div>
-    <canvas id="game-screen" width="400" height="800"> 
-    </canvas>
-    <!-- Only for debuggin -->
-    <!-- <div class="framework">
-        <div class="inner-framework"></div>
-    </div> -->
 </body>
     <!-- CONSTANTS -->
     <script src="assets/js/utils/constants.js"></script>
