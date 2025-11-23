@@ -10,9 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
     <!-- <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet"> -->
+    <!-- FONT AWESOME -->
+    <script src="https://kit.fontawesome.com/92c8ed6d3a.js" crossorigin="anonymous"></script>
     <title>Mars Attacks</title>
 </head>
 <body>
+
+    <div class="audio"><i class="fa-solid fa-volume-high" style="color: #ffffff;"></i></div>
     <div class="main-screen">
         <div class="start-screen">
             <div class="empty"></div>
@@ -36,7 +40,7 @@
                         <p id="lives">3</p>
                     </div>
                 </div>
-                <p id="time">0</p>
+                <p id="time">00:00:00</p>
             </div>
             <div class="game-instructions">
                 <h1>INSTRUCTIONS</h1>
@@ -54,6 +58,7 @@
             <div class="inner-framework"></div>
         </div> -->
     </div>
+
 </body>
     <!-- CONSTANTS -->
     <script src="assets/js/utils/constants.js"></script>
@@ -63,11 +68,14 @@
     <script src="assets/js/models/base/base-model.js"></script>
     <script src="assets/js/models/base/spritable.js"></script>
     <script src="assets/js/models/enemies/enemy.js"></script>
-    <script src="assets/js/models/base/base-army.js"></script>
+    <script src="assets/js/models/armies/army.js"></script>
     <script src="assets/js/models/weapons/beam.js"></script>
     <!-- MODELS -->
     <script src="assets/js/models/enemies/pawn.js"></script>
     <script src="assets/js/models/enemies/special.js"></script>
+    <script src="assets/js/models/armies/weak-army.js"></script>
+    <script src="assets/js/models/armies/normal-army.js"></script>
+    <script src="assets/js/models/armies/strong-army.js"></script>
     <script src="assets/js/models/enemies/boss.js"></script>
     <script src="assets/js/models/characters/spacecraft.js"></script>
     <!-- WEAPONS -->

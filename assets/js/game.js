@@ -1,6 +1,6 @@
 class Game {
 
-    constructor(idCanvas, idScoreDOM, idLivesDOM, idTimeDOM) {
+    constructor(idCanvas, idScoreDOM, idLivesDOM, idTimeDOM, soundIcon) {
         
         //Canvas
         this.canvas = document.getElementById(idCanvas);
@@ -26,20 +26,20 @@ class Game {
 
         //TimeCounter
         this.timeDOM = document.getElementById(idTimeDOM);
-        
         this.time = new TimeCounter();
 
+        //SoundIcon
+        this.soundIconDOM = document.querySelector("i");
+
         //Background
-        this.space = new Space(this.ctx, this.canvas.width, this.canvas.height, "/assets/images/backgrounds/bg-main.png");
+        this.space = new Space(this.ctx, this.canvas.width, this.canvas.height, "/assets/images/backgrounds/bg-main.png", this.soundIconDOM);
 
         //Player
         this.spacecraft = new Spacecraft(this.ctx, 40, 40, "/assets/images/sprites/spacecraft.sprite.png", 4, 4);
 
         //Enemies
-        this.army = new BaseArmy(this.ctx, this.width, this.height);
-        this.army.setUpArmy("weak");
-        this.army.setUpArmy("normal");
-        this.army.setUpArmy("strong");
+        this.army = new Army(this.ctx, this.width, this.height);
+        this.army.setUpArmy();
         this.army.placeArmy();
 
         this.boss = new Boss(this.ctx, 40, 40, "", 4, 3);
@@ -90,13 +90,11 @@ class Game {
 
         clearInterval(this.spacecraft.idReload);
 
-        this.army.weakArmy.forEach(enemy => clearInterval(enemy.beamGeneratorInterval));
-        this.army.normalArmy.forEach(enemy => clearInterval(enemy.beamGeneratorInterval));
-        this.army.strongArmy.forEach(enemy => clearInterval(enemy.beamGeneratorInterval));
+        this.army.weakArmy.enemies.forEach(enemy => clearInterval(enemy.beamGeneratorInterval));
+        this.army.normalArmy.enemies.forEach(enemy => clearInterval(enemy.beamGeneratorInterval));
+        this.army.strongArmy.enemies.forEach(enemy => clearInterval(enemy.beamGeneratorInterval));
 
         clearInterval(this.boss.idInterval);
-
-        this.space.audio.pause();
 
         this.time.stop();
     }
@@ -105,9 +103,9 @@ class Game {
         //The space moves
         this.space.move();
         this.spacecraft.move();
-        this.army.weakArmy.forEach(enemy => enemy.move());
-        this.army.normalArmy.forEach(enemy => enemy.move());
-        this.army.strongArmy.forEach(enemy => enemy.move());
+        this.army.weakArmy.enemies.forEach(enemy => enemy.move());
+        this.army.normalArmy.enemies.forEach(enemy => enemy.move());
+        this.army.strongArmy.enemies.forEach(enemy => enemy.move());
         this.boosters.forEach(booster => booster.move());
         if (this.boss.isReady) {
             this.boss.move();
@@ -119,60 +117,14 @@ class Game {
 
     checkCollisions() {
         //WEAK ARMY
-        this.army.weakArmy.forEach((enemy) => {
+        this.army.weakArmy.enemies.forEach((enemy) => {
             //Checks if any enemy has collided with a laser beam from the spacecraft
             this.spacecraft.beamGenerator.forEach((beam) => {
                 if(enemy.checkCollisions(beam) && beam.direction === "up") {
                     enemy.hitCount++;
                     enemy.checkLife();
-                    this.score += enemy.score;
-                    beam.isUsed = true;
-                }
-            });
-        
-            //Checks if the spacecraft has collided with a laser beam from the enemy
-            enemy.beamGenerator.forEach((beam) => {
-                if(this.spacecraft.checkCollisions(beam) && beam.direction === "down") {
-                    this.spacecraft.hitCount++;
-                    this.spacecraft.checkLife();
-                    beam.isUsed = true;
-                }
-            });
-        });
-
-        //NORMAL ARMY
-        this.army.normalArmy.forEach((enemy) => {
-            //Checks if any enemy has collided with a laser beam from the spacecraft
-            this.spacecraft.beamGenerator.forEach((beam) => {
-                if(enemy.checkCollisions(beam) && beam.direction === "up") {
-                    enemy.hitCount++;
-                    enemy.checkLife();
-                    this.score += enemy.score;
-                    beam.isUsed = true;
-                }
-            });
-        
-            //Checks if the spacecraft has collided with a laser beam from the enemy
-            enemy.beamGenerator.forEach((beam) => {
-                if(this.spacecraft.checkCollisions(beam) && beam.direction === "down") {
-                    this.spacecraft.hitCount++;
-                    this.spacecraft.checkLife();
-                    beam.isUsed = true;
-                }
-            });
-        });
-
-        //STRONG ARMY
-        this.army.strongArmy.forEach((enemy) => {
-            //Checks if any enemy has collided with a laser beam from the spacecraft
-            this.spacecraft.beamGenerator.forEach((beam) => {
-                if(enemy.checkCollisions(beam) && beam.direction === "up") {
-                    if(!this.spacecraft.immunity) {
-                        enemy.hitCount++;
-                        enemy.checkLife();
+                    if (enemy.isDead){
                         this.score += enemy.score;
-                        this.spacecraft.immunity = true;
-                        const idImmunity = setTimeout(()=> this.spacecraft.immunity = false, 1000);
                     }
                     beam.isUsed = true;
                 }
@@ -183,6 +135,62 @@ class Game {
                 if(this.spacecraft.checkCollisions(beam) && beam.direction === "down") {
                     this.spacecraft.hitCount++;
                     this.spacecraft.checkLife();
+                    this.spacecraft.immunity = true;
+                    const idImmunity = setTimeout(()=> this.spacecraft.immunity = false, 1000);
+                    beam.isUsed = true;
+                }
+            });
+        });
+
+        //NORMAL ARMY
+        this.army.normalArmy.enemies.forEach((enemy) => {
+            //Checks if any enemy has collided with a laser beam from the spacecraft
+            this.spacecraft.beamGenerator.forEach((beam) => {
+                if(enemy.checkCollisions(beam) && beam.direction === "up") {
+                    enemy.hitCount++;
+                    enemy.checkLife();
+                    if (enemy.isDead){
+                        this.score += enemy.score;
+                    }
+                    beam.isUsed = true;
+                }
+            });
+        
+            //Checks if the spacecraft has collided with a laser beam from the enemy
+            enemy.beamGenerator.forEach((beam) => {
+                if(this.spacecraft.checkCollisions(beam) && beam.direction === "down") {
+                    this.spacecraft.hitCount++;
+                    this.spacecraft.checkLife();
+                    this.spacecraft.immunity = true;
+                    const idImmunity = setTimeout(()=> this.spacecraft.immunity = false, 1000);
+                    beam.isUsed = true;
+                }
+            });
+        });
+
+        //STRONG ARMY
+        this.army.strongArmy.enemies.forEach((enemy) => {
+            //Checks if any enemy has collided with a laser beam from the spacecraft
+            this.spacecraft.beamGenerator.forEach((beam) => {
+                if(enemy.checkCollisions(beam) && beam.direction === "up") {
+                    if(!this.spacecraft.immunity) {
+                        enemy.hitCount++;
+                        enemy.checkLife();
+                        if (enemy.isDead){
+                            this.score += enemy.score;
+                        }
+                    }
+                    beam.isUsed = true;
+                }
+            });
+        
+            //Checks if the spacecraft has collided with a laser beam from the enemy
+            enemy.beamGenerator.forEach((beam) => {
+                if(this.spacecraft.checkCollisions(beam) && beam.direction === "down") {
+                    this.spacecraft.hitCount++;
+                    this.spacecraft.checkLife();
+                    this.spacecraft.immunity = true;
+                    const idImmunity = setTimeout(()=> this.spacecraft.immunity = false, 1000);
                     beam.isUsed = true;
                 }
             });
@@ -225,13 +233,16 @@ class Game {
     }
 
     checkCanFire() {
-        if(this.army.weakArmy.length < 8){
+        if((this.army.weakArmy.enemies.length < 8) && (this.army.normalArmy.canCheck)){
             this.army.normalArmy.canFire = true;
+            this.army.checkCanFire();
+            this.army.normalArmy.canCheck = false;
         }
-        if (this.army.normalArmy.length < 8) {
+        if (this.army.normalArmy.enemies.length < 8 && this.army.strongArmy.canCheck) {
             this.army.strongArmy.canFire = true;
+            this.army.checkCanFire();
+            this.army.strongArmy.canCheck = false;
         }
-        this.army.checkCanFire();
     }
 
     generateBoosters() {
@@ -261,9 +272,9 @@ class Game {
             this.spacecraft.isDead = false;
         }
 
-        if (this.army.weakArmy.length === 0 &&
-            this.army.normalArmy.length === 0 &&
-            this.army.strongArmy.length === 0) {
+        if (this.army.weakArmy.enemies.length === 0 &&
+            this.army.normalArmy.enemies.length === 0 &&
+            this.army.strongArmy.enemies.length === 0) {
                 this.boss.isReady = true;
                 this.boss.checkLife();
         }
@@ -277,14 +288,14 @@ class Game {
         //Clean the whole canvas
         this.ctx.clearRect(this.x, this.y, this.canvas.width, this.canvas.height);
 
-        this.army.weakArmy.forEach(enemy => enemy.clear());
-        this.army.weakArmy = this.army.weakArmy.filter(enemy => !enemy.isDead);
+        this.army.weakArmy.enemies.forEach(enemy => enemy.clear());
+        this.army.weakArmy.enemies = this.army.weakArmy.enemies.filter(enemy => !enemy.isDead);
         
-        this.army.normalArmy.forEach(enemy => enemy.clear());
-        this.army.normalArmy = this.army.normalArmy.filter(enemy => !enemy.isDead);
+        this.army.normalArmy.enemies.forEach(enemy => enemy.clear());
+        this.army.normalArmy.enemies = this.army.normalArmy.enemies.filter(enemy => !enemy.isDead);
 
-        this.army.strongArmy.forEach(enemy => enemy.clear());
-        this.army.strongArmy = this.army.strongArmy.filter(enemy => !enemy.isDead);
+        this.army.strongArmy.enemies.forEach(enemy => enemy.clear());
+        this.army.strongArmy.enemies = this.army.strongArmy.enemies.filter(enemy => !enemy.isDead);
 
         if(this.boss.isReady) {
             this.boss.clear();
@@ -299,9 +310,9 @@ class Game {
         this.space.draw();
         this.spacecraft.draw();
 
-        this.army.weakArmy.forEach(enemy => enemy.draw());
-        this.army.normalArmy.forEach(enemy => enemy.draw());
-        this.army.strongArmy.forEach(enemy => enemy.draw());
+        this.army.weakArmy.enemies.forEach(enemy => enemy.draw());
+        this.army.normalArmy.enemies.forEach(enemy => enemy.draw());
+        this.army.strongArmy.enemies.forEach(enemy => enemy.draw());
 
         this.boosters.forEach(booster => booster.draw());
 

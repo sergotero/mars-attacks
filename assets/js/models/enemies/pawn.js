@@ -13,7 +13,7 @@ class Pawn extends Enemy{
                 this.x = 0;
                 this.y = Constants.INITIAL_STRONG_Y;
                 this.score = 80;
-                this.maxHits = 3;
+                this.maxHits = 7;
                 this.canFire = false;
                 this.sprite.src = "/assets/images/sprites/strong-enemy.sprite.png";
                 break;
@@ -21,7 +21,7 @@ class Pawn extends Enemy{
                 this.x = 0;
                 this.y = Constants.INITIAL_NORMAL_Y;
                 this.score = 40;
-                this.maxHits = 2;
+                this.maxHits = 5;
                 this.canFire = false;
                 this.sprite.src = "/assets/images/sprites/normal-enemy.sprite.png";
                 break;
@@ -29,7 +29,7 @@ class Pawn extends Enemy{
                 this.x = 0;
                 this.y = Constants.INITIAL_WEAK_Y;
                 this.score = 20;
-                this.maxHits = 1;
+                this.maxHits = 3;
                 this.canFire = true;
                 this.sprite.src = "/assets/images/sprites/weak-enemy.sprite.png";
                 break;

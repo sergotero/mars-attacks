@@ -13,8 +13,8 @@ class Constants{
     static SPACECRAFT_SPEED_X = 3;
     static ENEMY_PAWN_SPEED_X = 1;
     static BOSS_SPEED_X = 2;
+    static BOSS_SPEED_Y = 2;
     static LASER_BEAM_SPEED_Y = 5;
-    static BOSS_SPEED_Y = 1;
 
     //Keycodes
     static ARROW_LEFT = 37;

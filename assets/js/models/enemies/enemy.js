@@ -31,7 +31,11 @@ class Enemy extends Spritable {
         this.x += this.vx;
         this.checkBounds();
         if (this.canFire) {
-            this.beamGenerator.forEach(beam => beam.move());
+            this.beamGenerator.forEach(beam => {
+                beam.move();
+                //Adds dynamism to each beam
+                beam.x = this.x;
+            });
         }
     }
 

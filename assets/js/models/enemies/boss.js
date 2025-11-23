@@ -25,7 +25,7 @@ class Boss extends Enemy {
 
     move() {
         if (this.y < Constants.INITIAL_STRONG_Y) {
-            this.y += this.vy;  
+            this.y += this.vy;
         } else if (this.y === Constants.INITIAL_STRONG_Y) {
             this.vy = 0;
             this.canFire = true;
