@@ -22,14 +22,20 @@ Character | Lives | Max. hits / life
 
 There're different types of boosters. Some help you increase your score and some may restore part of your defenses or even a life.
 
-Booster | Score | 
-|------|-------|
-|Cherry| +300 |
-|Strawberry| +110 |
+Booster | Action | Score | 
+|------|-------|---------|
+|Cherry| -1 hit | - |
+|Strawberry| -2 hits | - |
+|Emerald| - | +50 |
+|Ruby| - | +100 |
+|Zaphir| - | +200 |
+|Diamond| - | +300 |
+|Death| -1 life | - |
+|Life| +1 life | - |
 
 #### DEMO
 
-There's nothing more to say than... Godspeed, fellow traveler! May the odds be ever in your favour :)
+There's nothing more to say than... Godspeed, fellow traveler!
 
 ![Into the void](https://68.media.tumblr.com/b37f17a74741cf922a0f3d7ff25b18aa/tumblr_nqyps3rrNm1u97icho1_500.gif)
 

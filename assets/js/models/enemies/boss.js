@@ -1,7 +1,7 @@
 class Boss extends Enemy {
 
     constructor(ctx, width, height, sprite, rowFrames, colFrames, reloadTime) {
-        super(ctx, width, height, sprite = "/assets/images/sprites/boss.sprite.png", rowFrames, colFrames, reloadTime = Constants.BOSS_RELOAD_TIME);
+        super(ctx, width, height, sprite = "/assets/images/sprites/boss2.sprite.png", rowFrames, colFrames, reloadTime = Constants.BOSS_RELOAD_TIME);
 
         this.x = ((this.ctx.canvas.width / 2) - (this.width / 2));
         this.y = (0 - this.height);
@@ -60,9 +60,17 @@ class Boss extends Enemy {
                 this.colIndex = 1;
                 this.isDead = false;
                 break;
-            case 20:
+            case 15:
                 this.isDead = false;
                 this.colIndex = 2;
+                break;
+            case 20:
+                this.isDead = false;
+                this.colIndex = 3;
+                break;
+            case 25:
+                this.isDead = false;
+                this.colIndex = 4;
                 break;
             case this.maxHits:
                 this.isDead = true;
@@ -77,7 +85,7 @@ class Boss extends Enemy {
 
     animate() {
         if(this.vx !== 0) {
-            this.animateFrames(this.rowIndex, this.colIndex, this.rowFrames, 30);
+            this.animateFrames(this.rowIndex, this.colIndex, this.rowFrames, 8);
         }
     }
 }

@@ -42,7 +42,7 @@ class Game {
         this.army.setUpArmy();
         this.army.placeArmy();
 
-        this.boss = new Boss(this.ctx, 40, 40, "", 4, 3);
+        this.boss = new Boss(this.ctx, 38, 40, "", 6, 5);
 
         //Special objects
         this.boosters = [];
@@ -221,12 +221,48 @@ class Game {
         this.boosters.forEach((booster) => {
             if (booster.checkCollisions(this.spacecraft) && booster.type === "cherry") {
                 booster.audio.play();
-                this.score += booster.score;
+                this.spacecraft.hitCount += booster.score;
+                if (this.spacecraft.hitCount < 0) {
+                    this.spacecraft.hitCount = 0;
+                }
                 booster.isUsed = true;
             }
             if (booster.checkCollisions(this.spacecraft) && booster.type === "strawberry") {
                 booster.audio.play();
+                this.spacecraft.hitCount += booster.score;
+                if (this.spacecraft.hitCount < 0) {
+                    this.spacecraft.hitCount = 0;
+                }
+                booster.isUsed = true;
+            }
+            if (booster.checkCollisions(this.spacecraft) && booster.type === "emerald") {
+                booster.audio.play();
                 this.score += booster.score;
+                booster.isUsed = true;
+            }
+            if (booster.checkCollisions(this.spacecraft) && booster.type === "ruby") {
+                booster.audio.play();
+                this.score += booster.score;
+                booster.isUsed = true;
+            }
+            if (booster.checkCollisions(this.spacecraft) && booster.type === "zaphir") {
+                booster.audio.play();
+                this.score += booster.score;
+                booster.isUsed = true;
+            }
+            if (booster.checkCollisions(this.spacecraft) && booster.type === "diamond") {
+                booster.audio.play();
+                this.score += booster.score;
+                booster.isUsed = true;
+            }
+            if (booster.checkCollisions(this.spacecraft) && booster.type === "death") {
+                booster.audio.play();
+                this.lives--;
+                booster.isUsed = true;
+            }
+            if (booster.checkCollisions(this.spacecraft) && booster.type === "life") {
+                booster.audio.play();
+                this.lives++;
                 booster.isUsed = true;
             }
         })
@@ -246,21 +282,12 @@ class Game {
     }
 
     generateBoosters() {
-        const boosters = ["cherry", "strawberry"];
+        const boosters = ["cherry", "strawberry", "emerald", "ruby", "zaphir", "diamond", "death", "life"];
         const random = Math.floor(Math.random() * boosters.length);
         const item = boosters[random];
 
-        let booster;
-        switch (item) {
-            case "cherry":
-                booster = new Booster(this.ctx, 20, 20, "", 1, 1, item);
-                this.boosters.push(booster);
-                break;
-            case "strawberry":
-                booster = new Booster(this.ctx, 20, 20, "", 1, 1, item);
-                this.boosters.push(booster);
-                break;
-        }
+        const booster = new Booster(this.ctx, 20, 20, "", 1, 1, item);
+        this.boosters.push(booster);
     }
 
     //Update scores, lives, etc.
@@ -329,6 +356,7 @@ class Game {
             window.dispatchEvent(this.isOverEvent);
         }
         if (this.boss.isDead) {
+            this.score += 1000;
             this.stop();
             window.dispatchEvent(this.isOverEvent);
         }

@@ -13,16 +13,37 @@ class Booster extends Spritable {
         switch (this.type) {
             case "cherry":
                 this.sprite.src = "/assets/images/sprites/cherry.sprite.png";
-                // this.width = 30;
-                // this.height = 30;
-                this.score = 300;
+                this.score = -1;
                 break;
             case "strawberry":
                 this.sprite.src = "/assets/images/sprites/strawberry.sprite.png";
-                this.score = 110;
-                // this.width = 24;
-                // this.height = 30;
+                this.score = -2;
                 break;
+            case "emerald":
+                this.sprite.src = "/assets/images/sprites/emerald.sprite.png";
+                this.score = 50;
+                break;
+            case "ruby":
+                this.sprite.src = "/assets/images/sprites/ruby.sprite.png";
+                this.score = 100;
+                break;
+            case "zaphir":
+                this.sprite.src = "/assets/images/sprites/zaphir.sprite.png";
+                this.score = 200;
+                break;
+            case "diamond":
+                this.sprite.src = "/assets/images/sprites/diamond.sprite.png";
+                this.score = 300;
+                break;
+            case "death":
+                this.sprite.src = "/assets/images/sprites/death.sprite.png";
+                this.score = 0;
+                break;
+            case "life":
+                this.sprite.src = "/assets/images/sprites/life.sprite.png";
+                this.score = 0;
+                break;
+            
         }
 
         //Audio

@@ -6,7 +6,7 @@ class Constants{
     static FPS = 1000/60;
 
     //Boosters' generation
-    static BOOSTER_GENERATION_TIME = 10000;
+    static BOOSTER_GENERATION_TIME = 5000;
 
     //Speed
     static SKY_PACE = 0.3;
